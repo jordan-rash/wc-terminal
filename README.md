@@ -49,3 +49,13 @@ CLIENT_JWT=eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJaUktNWEFZSE
 > Note: This Seed and JWT is an example, you will need to generate your own.  Go to `https://app.ngs.global`, and sign up for a free account.  Follow their documentation for getting connected locally.  Once that is completed, you can run the `nsc generate creds` command to print your `CLIENT_SEED` and `CLIENT_JWT` to screen
 
 > Note: You will need to update the User credentials in the UI's `main.js` as well.  I couldnt figure out how to make a multi-line variable work in the environment files
+
+# How to play
+Once you navigate to the app, you will see a generic splash screen that will give you the option to start a session that will generate a random session code.  At this point, you can share that URL with a friend for multiplayer, or not, its still fun :-)
+
+The default mode you will be placed in is command mode.  This will allow you to interact with the filesystem.  You can switch to chat mode by using the slash command `/chat`.  Once in chat mode, it works like any other chat UI.  You will be given a random user name, you can update that with the `/nick myname` slash command.  
+
+TL;DR
+`/cmd` -> Go to command mode.  Interacts with filessystem
+`/chat` -> Go to chat mode.
+`/nick <name>` -> Change your name displaed in chat mode
