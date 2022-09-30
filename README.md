@@ -15,19 +15,19 @@ If you have wasmCloud already running (if not, download [wash](https://github.co
 
 
 ### Actors
-UI - `ghcr.io/jordan-rash/wc-terminal/ui:0.1.0`
-File System - `ghcr.io/jordan-rash/wc-terminal/nary_fs:0.1.0`
-Broker - `ghcr.io/jordan-rash/wc-terminal/broker:0.1.0`
+UI - `ghcr.io/jordan-rash/wc-terminal/ui:0.1.0`  
+File System - `ghcr.io/jordan-rash/wc-terminal/nary_fs:0.1.0`  
+Broker - `ghcr.io/jordan-rash/wc-terminal/broker:0.1.0`  
 
 ### Providers 
-HTTPServer - `wasmcloud.azurecr.io/httpserver:0.16.0`
-NATs Messaging - `wasmcloud.azurecr.io/nats_messaging:0.14.5`
-KV Redis - `wasmcloud.azurecr.io/kvredis:0.16.4`
+HTTPServer - `wasmcloud.azurecr.io/httpserver:0.16.0`  
+NATs Messaging - `wasmcloud.azurecr.io/nats_messaging:0.14.5`  
+KV Redis - `wasmcloud.azurecr.io/kvredis:0.16.4`  
 
 ### Link Definations
-UI <-> HTTPServer (no configuration)
-File System <-> KV Redis (no configuration)
-Broker <-> NATs Messaging (SUBSCRIPTION=session.*.command)
+UI <-> HTTPServer (no configuration)  
+File System <-> KV Redis (no configuration)  
+Broker <-> NATs Messaging (SUBSCRIPTION=session.*.command)  
 
 
 # Build
@@ -55,7 +55,13 @@ Once you navigate to the app, you will see a generic splash screen that will giv
 
 The default mode you will be placed in is command mode.  This will allow you to interact with the filesystem.  You can switch to chat mode by using the slash command `/chat`.  Once in chat mode, it works like any other chat UI.  You will be given a random user name, you can update that with the `/nick myname` slash command.  
 
-TL;DR
-`/cmd` -> Go to command mode.  Interacts with filessystem
-`/chat` -> Go to chat mode.
-`/nick <name>` -> Change your name displaed in chat mode
+_*TL;DR*_  
+`/cmd` -> Go to command mode.  Interacts with filessystem  
+`ls` -> List nodes at current path  
+`mkdir` -> Create directory type node at current path  
+`touch` -> Create file type node at current path  
+`cd` -> Navigate up or down a single node at a time. Relative to current path  
+`rm` -> Remove node at current path  
+
+`/chat` -> Go to chat mode.  
+`/nick <name>` -> Change your name displaed in chat mode  
