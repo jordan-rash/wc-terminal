@@ -65,3 +65,6 @@ _*TL;DR*_
 
 `/chat` -> Go to chat mode.  
 `/nick <name>` -> Change your name displaed in chat mode  
+
+
+https://user-images.githubusercontent.com/15827604/193326548-02c176cf-6d16-4905-9fed-84a54ddc88d1.mov
