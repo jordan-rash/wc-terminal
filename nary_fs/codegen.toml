@@ -1,0 +1,17 @@
+[[models]]
+path = "."
+files = [
+    "naryfs.smithy",
+]
+
+[[models]]
+url = "https://wasmcloud.github.io/interfaces/idl/org.wasmcloud"
+files = [ "wasmcloud-core.smithy", "wasmcloud-model.smithy" ]
+
+[tinygo]
+output_dir = "."
+formatter = [ "goimports", "-w" ]
+files = [
+    { path = "gen.go", package="main", namespace = "org.jordanrash.naryfs" },
+]
+

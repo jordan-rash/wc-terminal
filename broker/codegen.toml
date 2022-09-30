@@ -1,0 +1,15 @@
+[[models]]
+path = "naryfs.smithy"
+
+[[models]]
+url = "https://wasmcloud.github.io/interfaces/idl/org.wasmcloud"
+files = [ "wasmcloud-core.smithy", "wasmcloud-model.smithy" ]
+
+[rust]
+output_dir = "src"
+
+[rust.parameters]
+
+[[rust.files]]
+path = "naryfs.rs"
+namespace = "org.jordanrash.naryfs"

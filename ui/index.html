@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://simpleicons.org/icons/wasmcloud.svg"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Terminal</title>
+  </head>
+  <body
+    class="touch-none"
+    x-data="{
+      sessionid: (new URLSearchParams(window.location.search)).get('sessionid'),
+      goToSession() {
+        window.location.replace(`?sessionid=${Math.random().toString(36).slice(2, 10)}`)
+      }
+    }"
+  >
+    <script type="module" src="/main.js"></script>
+    <template x-if="!sessionid">
+      <div
+        class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-solarizebg py-6 sm:py-12"
+      >
+        <div class="mx-auto max-w-4xl p-10 text-center">
+          <h2 class="text-5xl font-bold leading-tight text-solarizeemph">
+            Terminal
+          </h2>
+          <p class="mt-5 text-xl leading-8 text-solarizecomment">
+            Interactive terminal sessions leveraging wasmCloud and NATs.
+          </p>
+          <p class="mt-5 text-xl leading-8 text-">
+            Create a terminal and share the URL with others to start
+            collaborating in real time!
+          </p>
+          <div class="mt-6 flex items-center justify-center gap-4">
+            <button
+              @click="goToSession()"
+              class="flex items-center justify-center gap-2 rounded-full bg-blue px-5 py-3 text-lg font-medium text-solarizeemph"
+            >
+              <span>Start session</span>
+              <span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M6.00156 13.4016L4.60156 12.0016L8.60156 8.00156L4.60156 4.00156L6.00156 2.60156L11.4016 8.00156L6.00156 13.4016Z"
+                    fill="white"
+                  /></svg
+              ></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template x-if="sessionid">
+      <div
+        class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-solarizebg sm:py-12 border-solid border-yellow"
+      >
+        <div
+          x-data="terminal('session.' + sessionid)"
+          class="container realtive max-h-fit"
+        >
+          <div class="realitive left-0 top-0 grid grid-cols-1 grid-rows-2">
+            <div class="absolute inset-0 p-2">
+              <template x-for="msg in data" :key="guidGenerator()">
+                <div>
+                  <template x-if="msg.type==='command'">
+                    <div
+                      class="grid grid-cols-1 rounded-md overflow-hidden hover:ring-1 hover:ring-blue-600 ring-opacity-20"
+                    >
+                      <div class="row-span-1 gap-1">
+                        <span
+                          class="font-bold font-spacemono text-solarizecomment"
+                          x-text="getDisplay(msg.resp.abspath)"
+                        ></span>
+                        <span
+                          class="italic font-spacemono text-blue text-right"
+                          x-text="getDisplayTime(msg.ts)"
+                        ></span>
+                      </div>
+                      <template x-if="msg.resp.success">
+                        <div
+                          class="font-spacemono text-solarizeemph pl-5"
+                          x-data="JSON.parse(msg.resp.response)"
+                        >
+                          <template x-for="d in data" :key="guidGenerator()">
+                            <span class="flex items-center">
+                              <template x-if="d.ty==='directory'">
+                                <svg
+                                  class="h-3 w-3 fill-yellow"
+                                  viewBox="0 0 512 512"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M490.053,118.398H259.926V77.852c0-12.121-9.826-21.947-21.947-21.947H71.731c-12.121,0-21.947,9.826-21.947,21.947,v40.546H21.947C9.826,118.398,0,128.224,0,140.345v293.804c0,12.121,9.826,21.947,21.947,21.947h468.106,c12.121,0,21.947-9.826,21.947-21.947V140.345C512,128.224,502.174,118.398,490.053,118.398z M93.678,99.799h122.354v18.599,H93.678V99.799z M468.106,412.201H43.894v-249.91h424.212V412.201z"
+                                  />
+                                </svg>
+                              </template>
+                              <template x-if="d.ty==='file'">
+                                <svg
+                                  class="h-3 w-3 fill-yellow"
+                                  viewBox="0 0 293.151 293.151"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M255.316,55.996l-51.928-52.94C201.471,1.102,198.842,0,196.104,0h-82.302h-8.232H45.113,c-5.631,0-10.197,4.566-10.197,10.192c0,5.626,4.566,10.192,10.197,10.192h60.457h8.232h72.11l0.005,44.231,c0,5.631,4.561,10.197,10.192,10.197h41.731v197.955H56.592V47.828c0-5.631-4.566-10.197-10.197-10.197,c-5.631,0-10.192,4.566-10.192,10.197v235.131c0,5.631,4.566,10.192,10.192,10.192h201.642c5.631,0,10.197-4.566,10.197-10.192,V63.137C258.229,60.467,257.185,57.903,255.316,55.996z M206.307,54.423V35.147l18.906,19.276H206.307z"
+                                    ,
+                                  />
+                                </svg>
+                              </template>
+                              <p
+                                class="block text-solarizeemph pl-2"
+                                x-cloak
+                                x-text="d.name"
+                              ></p>
+                            </span>
+                          </template>
+                        </div>
+                      </template>
+                      <template x-if="!msg.resp.success">
+                        <div class="font-spacemono text-solarizeemph pl-5">
+                          <p
+                            class="block italic text-red pl-2"
+                            x-cloak
+                            x-text="msg.resp.error"
+                          ></p>
+                        </div>
+                      </template>
+                    </div>
+                  </template>
+                  <template x-if="msg.type==='chat'">
+                    <div
+                      class="grid grid-cols-1 rounded-md overflow-hidden hover:ring-1 hover:ring-blue-600 ring-opacity-20"
+                    >
+                      <div class="row-span-1 gap-1">
+                        <span
+                          class="font-bold font-spacemono text-solarizecomment"
+                          x-text="getDisplay(msg.id)"
+                        ></span>
+                        <span
+                          class="italic font-spacemono text-blue text-right"
+                          x-text="getDisplayTime(msg.ts)"
+                        ></span>
+                        <div class="font-spacemono text-solarizeemph pl-5">
+                          <p
+                            class="block text-solarizeemph pl-2"
+                            x-cloak
+                            x-text="msg.action"
+                          ></p>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </template>
+            </div>
+            <div class="absolute inset-x-0 bottom-0 p-2 pb-5">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                <svg
+                  class="h-8 w-7 fill-yellow pl-2 pb-3"
+                  id="termicon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 256 256"
+                >
+                  <path
+                    id="termpath"
+                    d="M119.97217,136.96875l-72,64a11.99975,11.99975,0,1,1-15.94434-17.9375L93.9375,128,32.02783,72.96875a11.99975,11.99975,0,1,1,15.94434-17.9375l72,64a11.99925,11.99925,0,0,1,0,17.9375ZM215.99414,180h-96a12,12,0,0,0,0,24h96a12,12,0,1,0,0-24Z"
+                  />
+                </svg>
+              </span>
+              <input
+                class="block placeholder:italic bg-solarizebg w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm font-spacemono text-solarizeemph"
+                type="text"
+                placeholder="Enter command...? for help"
+                autocomplete="off"
+                onfocus="this.placeholder=''"
+                onblur="this.placeholder='Enter command...? for help'"
+                @keyup.enter="terminalInput($event)"
+                name="userinput"
+                id="userinput"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </body>
+</html>

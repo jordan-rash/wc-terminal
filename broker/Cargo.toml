@@ -1,0 +1,25 @@
+[package]
+name = "broker"
+version = "0.1.0"
+authors = [ "" ]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+name = "broker"
+
+[dependencies]
+futures = "0.3.24"
+form_urlencoded = "1.1.0"
+wasmbus-rpc = "0.10.1"
+wasmcloud-interface-httpserver = "0.7.0"
+wasmcloud-interface-messaging = "0.7.0"
+serde_json = "1.0.85"
+serde = "1.0.145"
+async-trait = "0.1.57"
+wasmcloud-interface-logging = "0.7.0"
+
+[profile.release]
+# Optimize for small code size
+lto = true
+opt-level = "s"
