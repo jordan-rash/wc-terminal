@@ -1,4 +1,4 @@
-# Multi-Channel Chat App / Terminal Emulator
+# Multi-Channel Chat App / File System Emulator
 
 A fun little application that emulates a multiplayer "filesystem" and real time chat.
 
